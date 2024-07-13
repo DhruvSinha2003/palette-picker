@@ -1,41 +1,80 @@
-// app/components/ColorPicker.tsx
-"use client";
+"use client"; // Add this line at the top
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { HexColorPicker } from "react-colorful";
+import tinycolor from "tinycolor2";
 
 const ColorPicker: React.FC = () => {
   const [color, setColor] = useState<string>("#aabbcc");
 
-  const getComplementaryColors = (color: string): string[] => {
-    const complement1 =
-      "#" +
-      (Number(`0x1${color.slice(1)}`) ^ 0xffffff)
-        .toString(16)
-        .slice(1)
-        .toUpperCase();
-    const complement2 =
-      "#" +
-      (Number(`0x2${color.slice(1)}`) ^ 0xffffff)
-        .toString(16)
-        .slice(1)
-        .toUpperCase();
-    return [complement1, complement2];
+  useEffect(() => {
+    const primaryColor = tinycolor(color);
+    const gradientColor1 = primaryColor.lighten(30).toHexString();
+    const gradientColor2 = primaryColor.darken(30).toHexString();
+
+    document.body.style.background = `linear-gradient(45deg, ${gradientColor1} 0%, ${gradientColor2} 100%)`;
+  }, [color]);
+
+  const getSuggestions = (primary: string) => {
+    const primaryColor = tinycolor(primary);
+    const secondaryColor = primaryColor.complement().toHexString();
+    const lightBackground = primaryColor.lighten(30).toHexString();
+    const darkBackground = primaryColor.darken(30).toHexString();
+    const accentColor = primaryColor.triad()[2].toHexString(); // Using triadic color for accent
+
+    return {
+      secondaryColor,
+      lightBackground,
+      darkBackground,
+      accentColor,
+    };
   };
 
-  const complementaryColors = getComplementaryColors(color);
+  const suggestions = getSuggestions(color);
+
+  const getContrastingTextColor = (bgColor: string) => {
+    return tinycolor(bgColor).isLight() ? "#000" : "#fff";
+  };
 
   return (
-    <div className="flex flex-col items-center">
+    <div>
       <HexColorPicker color={color} onChange={setColor} />
-      <p className="mt-4 text-lg">{color}</p>
-      <div className="mt-4 flex space-x-4">
-        {complementaryColors.map((compColor, index) => (
-          <div key={index} className="flex flex-col items-center">
-            <div className="w-16 h-16" style={{ backgroundColor: compColor }} />
-            <p className="mt-2">{compColor}</p>
-          </div>
-        ))}
+      <p>Selected Color: {color}</p>
+      <div
+        className="suggestions"
+        style={{
+          backgroundColor: suggestions.lightBackground,
+          color: getContrastingTextColor(suggestions.lightBackground),
+        }}
+      >
+        <div className="suggestion">
+          <div
+            className="color-box"
+            style={{ backgroundColor: suggestions.secondaryColor }}
+          ></div>
+          <p>Secondary Color: {suggestions.secondaryColor}</p>
+        </div>
+        <div className="suggestion">
+          <div
+            className="color-box"
+            style={{ backgroundColor: suggestions.lightBackground }}
+          ></div>
+          <p>Light Background: {suggestions.lightBackground}</p>
+        </div>
+        <div className="suggestion">
+          <div
+            className="color-box"
+            style={{ backgroundColor: suggestions.darkBackground }}
+          ></div>
+          <p>Dark Background: {suggestions.darkBackground}</p>
+        </div>
+        <div className="suggestion">
+          <div
+            className="color-box"
+            style={{ backgroundColor: suggestions.accentColor }}
+          ></div>
+          <p>Accent Color: {suggestions.accentColor}</p>
+        </div>
       </div>
     </div>
   );
