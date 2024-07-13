@@ -32,7 +32,32 @@ body {
   }
 }
 
+.container {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.picker {
+  margin-bottom: 30px;
+}
+
+.color-box {
+  border: 2px solid white;
+}
+
 .suggestions {
+  width: 350px;
   display: flex;
   flex-direction: column;
   gap: 1rem;

@@ -37,9 +37,11 @@ const ColorPicker: React.FC = () => {
   };
 
   return (
-    <div>
-      <HexColorPicker color={color} onChange={setColor} />
-      <p>Selected Color: {color}</p>
+    <div className="container">
+      <div className="left">
+        <HexColorPicker className="picker" color={color} onChange={setColor} />
+        <p className="selected">Selected Color: {color}</p>
+      </div>
       <div
         className="suggestions"
         style={{
