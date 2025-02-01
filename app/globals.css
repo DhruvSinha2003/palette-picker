@@ -1,4 +1,3 @@
-/* Reset some basic styles */
 * {
   margin: 0;
   padding: 0;
@@ -9,7 +8,6 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
     "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  /* Base gradient, but will be overwritten by inline style update */
   background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
   background-size: cover;
   transition: background 0.5s;
@@ -32,13 +30,8 @@ body {
   gap: 1rem;
   padding: 1rem;
   border-radius: 8px;
-  /* Background color set dynamically to accent color */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  transition: background-color 0.5s;
-}
-
-.selected {
-  font-weight: bold;
+  transition: background-color 0.3s;
 }
 
 .color-box {
